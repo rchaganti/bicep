@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 using System;
 using System.Collections.Generic;
@@ -7,6 +7,7 @@ using Bicep.Core.Diagnostics;
 using Bicep.Core.Semantics;
 using Bicep.Core.UnitTests.Assertions;
 using Bicep.Core.UnitTests.Utils;
+using Bicep.Core.Analyzers.Linter.Rules;
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -76,7 +77,7 @@ param inputb string
 ",
             };
 
-            var compilation = new Compilation(TestResourceTypeProvider.Create(), SyntaxTreeGroupingFactory.CreateForFiles(files, mainUri));
+            var compilation = new Compilation(TestTypeHelper.CreateEmptyProvider(), SyntaxTreeGroupingFactory.CreateForFiles(files, mainUri));
             var diagnosticsByFile = compilation.GetAllDiagnosticsBySyntaxTree().ToDictionary(kvp => kvp.Key.FileUri, kvp => kvp.Value);
             var success = diagnosticsByFile.Values.SelectMany(x => x).All(d => d.Level != DiagnosticLevel.Error);
 
@@ -84,6 +85,7 @@ param inputb string
             {
                 diagnosticsByFile[mainUri].Should().HaveDiagnostics(new[] {
                     ("BCP126", DiagnosticLevel.Error, "Function \"maxLength\" cannot be used as a variable decorator."),
+                    (NoUnusedVariablesRule.Code, DiagnosticLevel.Warning, new NoUnusedVariablesRule().GetMessage("foo")),
                     ("BCP127", DiagnosticLevel.Error, "Function \"allowed\" cannot be used as a resource decorator."),
                     ("BCP128", DiagnosticLevel.Error, "Function \"secure\" cannot be used as a module decorator."),
                     ("BCP129", DiagnosticLevel.Error, "Function \"minValue\" cannot be used as an output decorator."),
@@ -104,7 +106,8 @@ param inputb string
                 template.Should().NotHaveValue();
                 diagnostics.Should().HaveDiagnostics(new[] {
                     ("BCP152", DiagnosticLevel.Error, "Function \"concat\" cannot be used as a decorator."),
-                    ("BCP152", DiagnosticLevel.Error, "Function \"resourceId\" cannot be used as a decorator."),
+                    ("BCP132", DiagnosticLevel.Error, "Expected a declaration after the decorator."),
+                    ("BCP152", DiagnosticLevel.Error, "Function \"resourceId\" cannot be used as a decorator.")
                 });
             }
         }
@@ -155,7 +158,7 @@ param inputb string
 ",
             };
 
-            var compilation = new Compilation(TestResourceTypeProvider.Create(), SyntaxTreeGroupingFactory.CreateForFiles(files, mainUri));
+            var compilation = new Compilation(TestTypeHelper.CreateEmptyProvider(), SyntaxTreeGroupingFactory.CreateForFiles(files, mainUri));
             var diagnosticsByFile = compilation.GetAllDiagnosticsBySyntaxTree().ToDictionary(kvp => kvp.Key.FileUri, kvp => kvp.Value);
             var success = diagnosticsByFile.Values.SelectMany(x => x).All(d => d.Level != DiagnosticLevel.Error);
 
@@ -163,7 +166,9 @@ param inputb string
             {
                 diagnosticsByFile[mainUri].Should().HaveDiagnostics(new[] {
                     ("BCP152", DiagnosticLevel.Error, "Function \"resourceId\" cannot be used as a decorator."),
+                    (NoUnusedParametersRule.Code, DiagnosticLevel.Warning, new NoUnusedParametersRule().GetMessage("foo")),
                     ("BCP152", DiagnosticLevel.Error, "Function \"concat\" cannot be used as a decorator."),
+                    (NoUnusedVariablesRule.Code, DiagnosticLevel.Warning, new NoUnusedVariablesRule().GetMessage("bar")),
                     ("BCP152", DiagnosticLevel.Error, "Function \"environment\" cannot be used as a decorator."),
                     ("BCP152", DiagnosticLevel.Error, "Function \"union\" cannot be used as a decorator."),
                     ("BCP152", DiagnosticLevel.Error, "Function \"guid\" cannot be used as a decorator."),

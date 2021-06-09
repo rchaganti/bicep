@@ -1,6 +1,13 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "dev",
+      "templateHash": "15396773285907426422"
+    }
+  },
   "parameters": {
     "acrName": {
       "type": "string",
@@ -22,7 +29,7 @@
       "type": "string",
       "defaultValue": "[resourceGroup().location]",
       "metadata": {
-        "description": "Specifies the Azure location where the key vault should be created."
+        "description": "Specifies the Azure location where the container registry should be created."
       }
     },
     "acrSku": {
@@ -57,13 +64,6 @@
     "acrLoginServer": {
       "type": "string",
       "value": "[reference(resourceId('Microsoft.ContainerRegistry/registries', parameters('acrName'))).loginServer]"
-    }
-  },
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "dev",
-      "templateHash": "3888070285960884108"
     }
   }
 }

@@ -2393,6 +2393,554 @@ module propertyLoopInsideParameterValueInsideModuleLoop 'modulea.bicep' = [for t
 }]
 //@[0:1)    RightBrace |}|
 //@[1:2)   RightSquare |]|
-//@[2:4) NewLine |\r\n|
+//@[2:8) NewLine |\r\n\r\n\r\n|
 
-//@[0:0) EndOfFile ||
+
+// BEGIN: Key Vault Secret Reference
+//@[36:40) NewLine |\r\n\r\n|
+
+resource kv 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
+//@[0:90) ResourceDeclarationSyntax
+//@[0:8)  Identifier |resource|
+//@[9:11)  IdentifierSyntax
+//@[9:11)   Identifier |kv|
+//@[12:50)  StringSyntax
+//@[12:50)   StringComplete |'Microsoft.KeyVault/vaults@2019-09-01'|
+//@[51:59)  Identifier |existing|
+//@[60:61)  Assignment |=|
+//@[62:90)  ObjectSyntax
+//@[62:63)   LeftBrace |{|
+//@[63:65)   NewLine |\r\n|
+  name: 'testkeyvault'
+//@[2:22)   ObjectPropertySyntax
+//@[2:6)    IdentifierSyntax
+//@[2:6)     Identifier |name|
+//@[6:7)    Colon |:|
+//@[8:22)    StringSyntax
+//@[8:22)     StringComplete |'testkeyvault'|
+//@[22:24)   NewLine |\r\n|
+}
+//@[0:1)   RightBrace |}|
+//@[1:5) NewLine |\r\n\r\n|
+
+module secureModule1 'child/secureParams.bicep' = {
+//@[0:213) ModuleDeclarationSyntax
+//@[0:6)  Identifier |module|
+//@[7:20)  IdentifierSyntax
+//@[7:20)   Identifier |secureModule1|
+//@[21:47)  StringSyntax
+//@[21:47)   StringComplete |'child/secureParams.bicep'|
+//@[48:49)  Assignment |=|
+//@[50:213)  ObjectSyntax
+//@[50:51)   LeftBrace |{|
+//@[51:53)   NewLine |\r\n|
+  name: 'secureModule1'
+//@[2:23)   ObjectPropertySyntax
+//@[2:6)    IdentifierSyntax
+//@[2:6)     Identifier |name|
+//@[6:7)    Colon |:|
+//@[8:23)    StringSyntax
+//@[8:23)     StringComplete |'secureModule1'|
+//@[23:25)   NewLine |\r\n|
+  params: {
+//@[2:132)   ObjectPropertySyntax
+//@[2:8)    IdentifierSyntax
+//@[2:8)     Identifier |params|
+//@[8:9)    Colon |:|
+//@[10:132)    ObjectSyntax
+//@[10:11)     LeftBrace |{|
+//@[11:13)     NewLine |\r\n|
+    secureStringParam1: kv.getSecret('mySecret')
+//@[4:48)     ObjectPropertySyntax
+//@[4:22)      IdentifierSyntax
+//@[4:22)       Identifier |secureStringParam1|
+//@[22:23)      Colon |:|
+//@[24:48)      InstanceFunctionCallSyntax
+//@[24:26)       VariableAccessSyntax
+//@[24:26)        IdentifierSyntax
+//@[24:26)         Identifier |kv|
+//@[26:27)       Dot |.|
+//@[27:36)       IdentifierSyntax
+//@[27:36)        Identifier |getSecret|
+//@[36:37)       LeftParen |(|
+//@[37:47)       FunctionArgumentSyntax
+//@[37:47)        StringSyntax
+//@[37:47)         StringComplete |'mySecret'|
+//@[47:48)       RightParen |)|
+//@[48:50)     NewLine |\r\n|
+    secureStringParam2: kv.getSecret('mySecret','secretVersion')
+//@[4:64)     ObjectPropertySyntax
+//@[4:22)      IdentifierSyntax
+//@[4:22)       Identifier |secureStringParam2|
+//@[22:23)      Colon |:|
+//@[24:64)      InstanceFunctionCallSyntax
+//@[24:26)       VariableAccessSyntax
+//@[24:26)        IdentifierSyntax
+//@[24:26)         Identifier |kv|
+//@[26:27)       Dot |.|
+//@[27:36)       IdentifierSyntax
+//@[27:36)        Identifier |getSecret|
+//@[36:37)       LeftParen |(|
+//@[37:48)       FunctionArgumentSyntax
+//@[37:47)        StringSyntax
+//@[37:47)         StringComplete |'mySecret'|
+//@[47:48)        Comma |,|
+//@[48:63)       FunctionArgumentSyntax
+//@[48:63)        StringSyntax
+//@[48:63)         StringComplete |'secretVersion'|
+//@[63:64)       RightParen |)|
+//@[64:66)     NewLine |\r\n|
+  }
+//@[2:3)     RightBrace |}|
+//@[3:5)   NewLine |\r\n|
+}
+//@[0:1)   RightBrace |}|
+//@[1:5) NewLine |\r\n\r\n|
+
+resource scopedKv 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
+//@[0:134) ResourceDeclarationSyntax
+//@[0:8)  Identifier |resource|
+//@[9:17)  IdentifierSyntax
+//@[9:17)   Identifier |scopedKv|
+//@[18:56)  StringSyntax
+//@[18:56)   StringComplete |'Microsoft.KeyVault/vaults@2019-09-01'|
+//@[57:65)  Identifier |existing|
+//@[66:67)  Assignment |=|
+//@[68:134)  ObjectSyntax
+//@[68:69)   LeftBrace |{|
+//@[69:71)   NewLine |\r\n|
+  name: 'testkeyvault'
+//@[2:22)   ObjectPropertySyntax
+//@[2:6)    IdentifierSyntax
+//@[2:6)     Identifier |name|
+//@[6:7)    Colon |:|
+//@[8:22)    StringSyntax
+//@[8:22)     StringComplete |'testkeyvault'|
+//@[22:24)   NewLine |\r\n|
+  scope: resourceGroup('otherGroup')
+//@[2:36)   ObjectPropertySyntax
+//@[2:7)    IdentifierSyntax
+//@[2:7)     Identifier |scope|
+//@[7:8)    Colon |:|
+//@[9:36)    FunctionCallSyntax
+//@[9:22)     IdentifierSyntax
+//@[9:22)      Identifier |resourceGroup|
+//@[22:23)     LeftParen |(|
+//@[23:35)     FunctionArgumentSyntax
+//@[23:35)      StringSyntax
+//@[23:35)       StringComplete |'otherGroup'|
+//@[35:36)     RightParen |)|
+//@[36:38)   NewLine |\r\n|
+}
+//@[0:1)   RightBrace |}|
+//@[1:5) NewLine |\r\n\r\n|
+
+module secureModule2 'child/secureParams.bicep' = {
+//@[0:225) ModuleDeclarationSyntax
+//@[0:6)  Identifier |module|
+//@[7:20)  IdentifierSyntax
+//@[7:20)   Identifier |secureModule2|
+//@[21:47)  StringSyntax
+//@[21:47)   StringComplete |'child/secureParams.bicep'|
+//@[48:49)  Assignment |=|
+//@[50:225)  ObjectSyntax
+//@[50:51)   LeftBrace |{|
+//@[51:53)   NewLine |\r\n|
+  name: 'secureModule2'
+//@[2:23)   ObjectPropertySyntax
+//@[2:6)    IdentifierSyntax
+//@[2:6)     Identifier |name|
+//@[6:7)    Colon |:|
+//@[8:23)    StringSyntax
+//@[8:23)     StringComplete |'secureModule2'|
+//@[23:25)   NewLine |\r\n|
+  params: {
+//@[2:144)   ObjectPropertySyntax
+//@[2:8)    IdentifierSyntax
+//@[2:8)     Identifier |params|
+//@[8:9)    Colon |:|
+//@[10:144)    ObjectSyntax
+//@[10:11)     LeftBrace |{|
+//@[11:13)     NewLine |\r\n|
+    secureStringParam1: scopedKv.getSecret('mySecret')
+//@[4:54)     ObjectPropertySyntax
+//@[4:22)      IdentifierSyntax
+//@[4:22)       Identifier |secureStringParam1|
+//@[22:23)      Colon |:|
+//@[24:54)      InstanceFunctionCallSyntax
+//@[24:32)       VariableAccessSyntax
+//@[24:32)        IdentifierSyntax
+//@[24:32)         Identifier |scopedKv|
+//@[32:33)       Dot |.|
+//@[33:42)       IdentifierSyntax
+//@[33:42)        Identifier |getSecret|
+//@[42:43)       LeftParen |(|
+//@[43:53)       FunctionArgumentSyntax
+//@[43:53)        StringSyntax
+//@[43:53)         StringComplete |'mySecret'|
+//@[53:54)       RightParen |)|
+//@[54:56)     NewLine |\r\n|
+    secureStringParam2: scopedKv.getSecret('mySecret','secretVersion')
+//@[4:70)     ObjectPropertySyntax
+//@[4:22)      IdentifierSyntax
+//@[4:22)       Identifier |secureStringParam2|
+//@[22:23)      Colon |:|
+//@[24:70)      InstanceFunctionCallSyntax
+//@[24:32)       VariableAccessSyntax
+//@[24:32)        IdentifierSyntax
+//@[24:32)         Identifier |scopedKv|
+//@[32:33)       Dot |.|
+//@[33:42)       IdentifierSyntax
+//@[33:42)        Identifier |getSecret|
+//@[42:43)       LeftParen |(|
+//@[43:54)       FunctionArgumentSyntax
+//@[43:53)        StringSyntax
+//@[43:53)         StringComplete |'mySecret'|
+//@[53:54)        Comma |,|
+//@[54:69)       FunctionArgumentSyntax
+//@[54:69)        StringSyntax
+//@[54:69)         StringComplete |'secretVersion'|
+//@[69:70)       RightParen |)|
+//@[70:72)     NewLine |\r\n|
+  }
+//@[2:3)     RightBrace |}|
+//@[3:5)   NewLine |\r\n|
+}
+//@[0:1)   RightBrace |}|
+//@[1:5) NewLine |\r\n\r\n|
+
+//looped module with looped existing resource (Issue #2862)
+//@[59:61) NewLine |\r\n|
+var vaults = [
+//@[0:200) VariableDeclarationSyntax
+//@[0:3)  Identifier |var|
+//@[4:10)  IdentifierSyntax
+//@[4:10)   Identifier |vaults|
+//@[11:12)  Assignment |=|
+//@[13:200)  ArraySyntax
+//@[13:14)   LeftSquare |[|
+//@[14:16)   NewLine |\r\n|
+  {
+//@[2:89)   ArrayItemSyntax
+//@[2:89)    ObjectSyntax
+//@[2:3)     LeftBrace |{|
+//@[3:5)     NewLine |\r\n|
+    vaultName: 'test-1-kv'
+//@[4:26)     ObjectPropertySyntax
+//@[4:13)      IdentifierSyntax
+//@[4:13)       Identifier |vaultName|
+//@[13:14)      Colon |:|
+//@[15:26)      StringSyntax
+//@[15:26)       StringComplete |'test-1-kv'|
+//@[26:28)     NewLine |\r\n|
+    vaultRG: 'test-1-rg'
+//@[4:24)     ObjectPropertySyntax
+//@[4:11)      IdentifierSyntax
+//@[4:11)       Identifier |vaultRG|
+//@[11:12)      Colon |:|
+//@[13:24)      StringSyntax
+//@[13:24)       StringComplete |'test-1-rg'|
+//@[24:26)     NewLine |\r\n|
+    vaultSub: 'abcd-efgh'
+//@[4:25)     ObjectPropertySyntax
+//@[4:12)      IdentifierSyntax
+//@[4:12)       Identifier |vaultSub|
+//@[12:13)      Colon |:|
+//@[14:25)      StringSyntax
+//@[14:25)       StringComplete |'abcd-efgh'|
+//@[25:27)     NewLine |\r\n|
+  }
+//@[2:3)     RightBrace |}|
+//@[3:5)   NewLine |\r\n|
+  {
+//@[2:90)   ArrayItemSyntax
+//@[2:90)    ObjectSyntax
+//@[2:3)     LeftBrace |{|
+//@[3:5)     NewLine |\r\n|
+    vaultName: 'test-2-kv'
+//@[4:26)     ObjectPropertySyntax
+//@[4:13)      IdentifierSyntax
+//@[4:13)       Identifier |vaultName|
+//@[13:14)      Colon |:|
+//@[15:26)      StringSyntax
+//@[15:26)       StringComplete |'test-2-kv'|
+//@[26:28)     NewLine |\r\n|
+    vaultRG: 'test-2-rg'
+//@[4:24)     ObjectPropertySyntax
+//@[4:11)      IdentifierSyntax
+//@[4:11)       Identifier |vaultRG|
+//@[11:12)      Colon |:|
+//@[13:24)      StringSyntax
+//@[13:24)       StringComplete |'test-2-rg'|
+//@[24:26)     NewLine |\r\n|
+    vaultSub: 'ijkl-1adg1'
+//@[4:26)     ObjectPropertySyntax
+//@[4:12)      IdentifierSyntax
+//@[4:12)       Identifier |vaultSub|
+//@[12:13)      Colon |:|
+//@[14:26)      StringSyntax
+//@[14:26)       StringComplete |'ijkl-1adg1'|
+//@[26:28)     NewLine |\r\n|
+  }
+//@[2:3)     RightBrace |}|
+//@[3:5)   NewLine |\r\n|
+]
+//@[0:1)   RightSquare |]|
+//@[1:3) NewLine |\r\n|
+var secrets = [
+//@[0:132) VariableDeclarationSyntax
+//@[0:3)  Identifier |var|
+//@[4:11)  IdentifierSyntax
+//@[4:11)   Identifier |secrets|
+//@[12:13)  Assignment |=|
+//@[14:132)  ArraySyntax
+//@[14:15)   LeftSquare |[|
+//@[15:17)   NewLine |\r\n|
+  {
+//@[2:55)   ArrayItemSyntax
+//@[2:55)    ObjectSyntax
+//@[2:3)     LeftBrace |{|
+//@[3:5)     NewLine |\r\n|
+    name: 'secret01'
+//@[4:20)     ObjectPropertySyntax
+//@[4:8)      IdentifierSyntax
+//@[4:8)       Identifier |name|
+//@[8:9)      Colon |:|
+//@[10:20)      StringSyntax
+//@[10:20)       StringComplete |'secret01'|
+//@[20:22)     NewLine |\r\n|
+    version: 'versionA'
+//@[4:23)     ObjectPropertySyntax
+//@[4:11)      IdentifierSyntax
+//@[4:11)       Identifier |version|
+//@[11:12)      Colon |:|
+//@[13:23)      StringSyntax
+//@[13:23)       StringComplete |'versionA'|
+//@[23:25)     NewLine |\r\n|
+  }
+//@[2:3)     RightBrace |}|
+//@[3:5)   NewLine |\r\n|
+  {
+//@[2:55)   ArrayItemSyntax
+//@[2:55)    ObjectSyntax
+//@[2:3)     LeftBrace |{|
+//@[3:5)     NewLine |\r\n|
+    name: 'secret02'
+//@[4:20)     ObjectPropertySyntax
+//@[4:8)      IdentifierSyntax
+//@[4:8)       Identifier |name|
+//@[8:9)      Colon |:|
+//@[10:20)      StringSyntax
+//@[10:20)       StringComplete |'secret02'|
+//@[20:22)     NewLine |\r\n|
+    version: 'versionB'
+//@[4:23)     ObjectPropertySyntax
+//@[4:11)      IdentifierSyntax
+//@[4:11)       Identifier |version|
+//@[11:12)      Colon |:|
+//@[13:23)      StringSyntax
+//@[13:23)       StringComplete |'versionB'|
+//@[23:25)     NewLine |\r\n|
+  }
+//@[2:3)     RightBrace |}|
+//@[3:5)   NewLine |\r\n|
+]
+//@[0:1)   RightSquare |]|
+//@[1:5) NewLine |\r\n\r\n|
+
+resource loopedKv 'Microsoft.KeyVault/vaults@2019-09-01' existing = [for vault in vaults: {
+//@[0:175) ResourceDeclarationSyntax
+//@[0:8)  Identifier |resource|
+//@[9:17)  IdentifierSyntax
+//@[9:17)   Identifier |loopedKv|
+//@[18:56)  StringSyntax
+//@[18:56)   StringComplete |'Microsoft.KeyVault/vaults@2019-09-01'|
+//@[57:65)  Identifier |existing|
+//@[66:67)  Assignment |=|
+//@[68:175)  ForSyntax
+//@[68:69)   LeftSquare |[|
+//@[69:72)   Identifier |for|
+//@[73:78)   LocalVariableSyntax
+//@[73:78)    IdentifierSyntax
+//@[73:78)     Identifier |vault|
+//@[79:81)   Identifier |in|
+//@[82:88)   VariableAccessSyntax
+//@[82:88)    IdentifierSyntax
+//@[82:88)     Identifier |vaults|
+//@[88:89)   Colon |:|
+//@[90:174)   ObjectSyntax
+//@[90:91)    LeftBrace |{|
+//@[91:93)    NewLine |\r\n|
+  name: vault.vaultName
+//@[2:23)    ObjectPropertySyntax
+//@[2:6)     IdentifierSyntax
+//@[2:6)      Identifier |name|
+//@[6:7)     Colon |:|
+//@[8:23)     PropertyAccessSyntax
+//@[8:13)      VariableAccessSyntax
+//@[8:13)       IdentifierSyntax
+//@[8:13)        Identifier |vault|
+//@[13:14)      Dot |.|
+//@[14:23)      IdentifierSyntax
+//@[14:23)       Identifier |vaultName|
+//@[23:25)    NewLine |\r\n|
+  scope: resourceGroup(vault.vaultSub, vault.vaultRG)
+//@[2:53)    ObjectPropertySyntax
+//@[2:7)     IdentifierSyntax
+//@[2:7)      Identifier |scope|
+//@[7:8)     Colon |:|
+//@[9:53)     FunctionCallSyntax
+//@[9:22)      IdentifierSyntax
+//@[9:22)       Identifier |resourceGroup|
+//@[22:23)      LeftParen |(|
+//@[23:38)      FunctionArgumentSyntax
+//@[23:37)       PropertyAccessSyntax
+//@[23:28)        VariableAccessSyntax
+//@[23:28)         IdentifierSyntax
+//@[23:28)          Identifier |vault|
+//@[28:29)        Dot |.|
+//@[29:37)        IdentifierSyntax
+//@[29:37)         Identifier |vaultSub|
+//@[37:38)       Comma |,|
+//@[39:52)      FunctionArgumentSyntax
+//@[39:52)       PropertyAccessSyntax
+//@[39:44)        VariableAccessSyntax
+//@[39:44)         IdentifierSyntax
+//@[39:44)          Identifier |vault|
+//@[44:45)        Dot |.|
+//@[45:52)        IdentifierSyntax
+//@[45:52)         Identifier |vaultRG|
+//@[52:53)      RightParen |)|
+//@[53:55)    NewLine |\r\n|
+}]
+//@[0:1)    RightBrace |}|
+//@[1:2)   RightSquare |]|
+//@[2:6) NewLine |\r\n\r\n|
+
+module secureModuleLooped 'child/secureParams.bicep' = [for (secret, i) in secrets: {
+//@[0:278) ModuleDeclarationSyntax
+//@[0:6)  Identifier |module|
+//@[7:25)  IdentifierSyntax
+//@[7:25)   Identifier |secureModuleLooped|
+//@[26:52)  StringSyntax
+//@[26:52)   StringComplete |'child/secureParams.bicep'|
+//@[53:54)  Assignment |=|
+//@[55:278)  ForSyntax
+//@[55:56)   LeftSquare |[|
+//@[56:59)   Identifier |for|
+//@[60:71)   ForVariableBlockSyntax
+//@[60:61)    LeftParen |(|
+//@[61:67)    LocalVariableSyntax
+//@[61:67)     IdentifierSyntax
+//@[61:67)      Identifier |secret|
+//@[67:68)    Comma |,|
+//@[69:70)    LocalVariableSyntax
+//@[69:70)     IdentifierSyntax
+//@[69:70)      Identifier |i|
+//@[70:71)    RightParen |)|
+//@[72:74)   Identifier |in|
+//@[75:82)   VariableAccessSyntax
+//@[75:82)    IdentifierSyntax
+//@[75:82)     Identifier |secrets|
+//@[82:83)   Colon |:|
+//@[84:277)   ObjectSyntax
+//@[84:85)    LeftBrace |{|
+//@[85:87)    NewLine |\r\n|
+  name: 'secureModuleLooped-${i}'
+//@[2:33)    ObjectPropertySyntax
+//@[2:6)     IdentifierSyntax
+//@[2:6)      Identifier |name|
+//@[6:7)     Colon |:|
+//@[8:33)     StringSyntax
+//@[8:30)      StringLeftPiece |'secureModuleLooped-${|
+//@[30:31)      VariableAccessSyntax
+//@[30:31)       IdentifierSyntax
+//@[30:31)        Identifier |i|
+//@[31:33)      StringRightPiece |}'|
+//@[33:35)    NewLine |\r\n|
+  params: {
+//@[2:152)    ObjectPropertySyntax
+//@[2:8)     IdentifierSyntax
+//@[2:8)      Identifier |params|
+//@[8:9)     Colon |:|
+//@[10:152)     ObjectSyntax
+//@[10:11)      LeftBrace |{|
+//@[11:13)      NewLine |\r\n|
+    secureStringParam1: loopedKv[i].getSecret(secret.name)
+//@[4:58)      ObjectPropertySyntax
+//@[4:22)       IdentifierSyntax
+//@[4:22)        Identifier |secureStringParam1|
+//@[22:23)       Colon |:|
+//@[24:58)       InstanceFunctionCallSyntax
+//@[24:35)        ArrayAccessSyntax
+//@[24:32)         VariableAccessSyntax
+//@[24:32)          IdentifierSyntax
+//@[24:32)           Identifier |loopedKv|
+//@[32:33)         LeftSquare |[|
+//@[33:34)         VariableAccessSyntax
+//@[33:34)          IdentifierSyntax
+//@[33:34)           Identifier |i|
+//@[34:35)         RightSquare |]|
+//@[35:36)        Dot |.|
+//@[36:45)        IdentifierSyntax
+//@[36:45)         Identifier |getSecret|
+//@[45:46)        LeftParen |(|
+//@[46:57)        FunctionArgumentSyntax
+//@[46:57)         PropertyAccessSyntax
+//@[46:52)          VariableAccessSyntax
+//@[46:52)           IdentifierSyntax
+//@[46:52)            Identifier |secret|
+//@[52:53)          Dot |.|
+//@[53:57)          IdentifierSyntax
+//@[53:57)           Identifier |name|
+//@[57:58)        RightParen |)|
+//@[58:60)      NewLine |\r\n|
+    secureStringParam2: loopedKv[i].getSecret(secret.name, secret.version)
+//@[4:74)      ObjectPropertySyntax
+//@[4:22)       IdentifierSyntax
+//@[4:22)        Identifier |secureStringParam2|
+//@[22:23)       Colon |:|
+//@[24:74)       InstanceFunctionCallSyntax
+//@[24:35)        ArrayAccessSyntax
+//@[24:32)         VariableAccessSyntax
+//@[24:32)          IdentifierSyntax
+//@[24:32)           Identifier |loopedKv|
+//@[32:33)         LeftSquare |[|
+//@[33:34)         VariableAccessSyntax
+//@[33:34)          IdentifierSyntax
+//@[33:34)           Identifier |i|
+//@[34:35)         RightSquare |]|
+//@[35:36)        Dot |.|
+//@[36:45)        IdentifierSyntax
+//@[36:45)         Identifier |getSecret|
+//@[45:46)        LeftParen |(|
+//@[46:58)        FunctionArgumentSyntax
+//@[46:57)         PropertyAccessSyntax
+//@[46:52)          VariableAccessSyntax
+//@[46:52)           IdentifierSyntax
+//@[46:52)            Identifier |secret|
+//@[52:53)          Dot |.|
+//@[53:57)          IdentifierSyntax
+//@[53:57)           Identifier |name|
+//@[57:58)         Comma |,|
+//@[59:73)        FunctionArgumentSyntax
+//@[59:73)         PropertyAccessSyntax
+//@[59:65)          VariableAccessSyntax
+//@[59:65)           IdentifierSyntax
+//@[59:65)            Identifier |secret|
+//@[65:66)          Dot |.|
+//@[66:73)          IdentifierSyntax
+//@[66:73)           Identifier |version|
+//@[73:74)        RightParen |)|
+//@[74:76)      NewLine |\r\n|
+  }
+//@[2:3)      RightBrace |}|
+//@[3:5)    NewLine |\r\n|
+}]
+//@[0:1)    RightBrace |}|
+//@[1:2)   RightSquare |]|
+//@[2:8) NewLine |\r\n\r\n\r\n|
+
+
+// END: Key Vault Secret Reference
+//@[34:34) EndOfFile ||

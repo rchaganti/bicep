@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Bicep.Core.Diagnostics;
+using Bicep.Core.Extensions;
 using Bicep.Core.Navigation;
 using Bicep.Core.Parsing;
 using Bicep.Core.Semantics;
@@ -20,8 +21,8 @@ namespace Bicep.Core.Syntax
             AssertKeyword(keyword, nameof(keyword), LanguageConstants.ParameterKeyword);
             AssertSyntaxType(name, nameof(name), typeof(IdentifierSyntax));
             AssertSyntaxType(type, nameof(type), typeof(TypeSyntax), typeof(SkippedTriviaSyntax));
-            AssertSyntaxType(modifier, nameof(modifier), typeof(ParameterDefaultValueSyntax), typeof(ObjectSyntax), typeof(SkippedTriviaSyntax));
-            
+            AssertSyntaxType(modifier, nameof(modifier), typeof(ParameterDefaultValueSyntax), typeof(SkippedTriviaSyntax));
+
             this.Keyword = keyword;
             this.Name = name;
             this.Type = type;
@@ -29,7 +30,7 @@ namespace Bicep.Core.Syntax
         }
 
         public Token Keyword { get; }
-        
+
         public IdentifierSyntax Name { get; }
 
         public SyntaxBase Type { get; }
@@ -67,17 +68,16 @@ namespace Bicep.Core.Syntax
             var assignedType = this.GetDeclaredType();
 
             // TODO: remove SyntaxHelper.TryGetAllowedSyntax when we drop parameter modifiers support.
-            allowedSyntax ??= SyntaxHelper.TryGetAllowedSyntax(this);
             if (allowedSyntax is not null && !allowedSyntax.Items.Any())
             {
                 return ErrorType.Create(DiagnosticBuilder.ForPosition(allowedSyntax).AllowedMustContainItems());
             }
 
-            if (object.ReferenceEquals(assignedType, LanguageConstants.String))
-            {
-                var allowedItemTypes = allowedSyntax?.Items.Select(typeManager.GetTypeInfo);
+            var allowedItemTypes = allowedSyntax?.Items.Select(typeManager.GetTypeInfo);
 
-                if (allowedItemTypes != null && allowedItemTypes.All(itemType => itemType is StringLiteralType))
+            if (ReferenceEquals(assignedType, LanguageConstants.String))
+            {
+                if (allowedItemTypes?.All(itemType => itemType is StringLiteralType) == true)
                 {
                     assignedType = UnionType.Create(allowedItemTypes);
                 }
@@ -87,6 +87,12 @@ namespace Bicep.Core.Syntax
                     // we need to relax the validation for string parameters without 'allowed' values specified.
                     assignedType = LanguageConstants.LooseString;
                 }
+            }
+
+            if (ReferenceEquals(assignedType, LanguageConstants.Array) &&
+                allowedItemTypes?.All(itemType => itemType is StringLiteralType) == true)
+            {
+                assignedType = new TypedArrayType(UnionType.Create(allowedItemTypes), TypeSymbolValidationFlags.Default);
             }
 
             return assignedType;

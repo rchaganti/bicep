@@ -50,9 +50,10 @@ namespace Bicep.Core.Emit
 
         public override void VisitResourceDeclarationSyntax(ResourceDeclarationSyntax syntax)
         {
-            if (!(this.model.GetSymbolInfo(syntax) is ResourceSymbol resourceSymbol))
+            if (this.model.GetSymbolInfo(syntax) is not ResourceSymbol resourceSymbol)
             {
-                throw new InvalidOperationException("Unbound declaration");
+                // When invoked by BicepDeploymentGraphHandler, it's possible that the declaration is unbound.
+                return;
             }
 
             // Resource ancestors are always dependencies.
@@ -71,9 +72,9 @@ namespace Bicep.Core.Emit
 
         public override void VisitModuleDeclarationSyntax(ModuleDeclarationSyntax syntax)
         {
-            if (!(this.model.GetSymbolInfo(syntax) is ModuleSymbol moduleSymbol))
+            if (this.model.GetSymbolInfo(syntax) is not ModuleSymbol moduleSymbol)
             {
-                throw new InvalidOperationException("Unbound declaration");
+                return;
             }
 
             // save previous declaration as we may call this recursively
@@ -89,9 +90,9 @@ namespace Bicep.Core.Emit
 
         public override void VisitVariableDeclarationSyntax(VariableDeclarationSyntax syntax)
         {
-            if (!(this.model.GetSymbolInfo(syntax) is VariableSymbol variableSymbol))
+            if (this.model.GetSymbolInfo(syntax) is not VariableSymbol variableSymbol)
             {
-                throw new InvalidOperationException("Unbound declaration");
+                return;
             }
 
             // save previous declaration as we may call this recursively
@@ -105,6 +106,19 @@ namespace Bicep.Core.Emit
             this.currentDeclaration = prevDeclaration;
         }
 
+        private IEnumerable<ResourceDependency> GetResourceDependencies(DeclaredSymbol declaredSymbol)
+        {
+            if (!resourceDependencies.TryGetValue(declaredSymbol, out var dependencies))
+            {
+                // recursively visit dependent variables
+                this.Visit(declaredSymbol.DeclaringSyntax);
+
+                dependencies = resourceDependencies[declaredSymbol];
+            }
+
+            return dependencies;
+        }
+
         public override void VisitVariableAccessSyntax(VariableAccessSyntax syntax)
         {
             if (currentDeclaration is null)
@@ -115,22 +129,20 @@ namespace Bicep.Core.Emit
             switch (model.GetSymbolInfo(syntax))
             {
                 case VariableSymbol variableSymbol:
-                    if (!resourceDependencies.TryGetValue(variableSymbol, out var dependencies))
-                    {
-                        // recursively visit dependent variables
-                        this.Visit(variableSymbol.DeclaringSyntax);
+                    var varDependencies = GetResourceDependencies(variableSymbol);
 
-                        dependencies = resourceDependencies[variableSymbol];
-                    }
-
-                    foreach (var dependency in dependencies)
-                    {
-                        resourceDependencies[currentDeclaration].Add(dependency);
-                    }
-
+                    resourceDependencies[currentDeclaration].UnionWith(varDependencies);
                     return;
 
                 case ResourceSymbol resourceSymbol:
+                    if (resourceSymbol.DeclaringResource.IsExistingResource())
+                    {
+                        var existingDependencies = GetResourceDependencies(resourceSymbol);
+
+                        resourceDependencies[currentDeclaration].UnionWith(existingDependencies);
+                        return;
+                    }
+
                     resourceDependencies[currentDeclaration].Add(new ResourceDependency(resourceSymbol, GetIndexExpression(syntax, resourceSymbol.IsCollection)));
                     return;
 
@@ -150,6 +162,14 @@ namespace Bicep.Core.Emit
             switch (model.GetSymbolInfo(syntax))
             {
                 case ResourceSymbol resourceSymbol:
+                    if (resourceSymbol.DeclaringResource.IsExistingResource())
+                    {
+                        var existingDependencies = GetResourceDependencies(resourceSymbol);
+
+                        resourceDependencies[currentDeclaration].UnionWith(existingDependencies);
+                        return;
+                    }
+
                     resourceDependencies[currentDeclaration].Add(new ResourceDependency(resourceSymbol, GetIndexExpression(syntax, resourceSymbol.IsCollection)));
                     return;
 
@@ -158,7 +178,6 @@ namespace Bicep.Core.Emit
                     return;
             }
         }
-
             
         private SyntaxBase? GetIndexExpression(SyntaxBase syntax, bool isCollection)
         {
@@ -186,7 +205,7 @@ namespace Bicep.Core.Emit
                 VariableSymbol variableSymbol => variableSymbol.DeclaringVariable.Value,
                 _ => throw new NotImplementedException($"Unexpected current declaration type '{this.currentDeclaration?.GetType().Name}'.")
             };
-            
+
             // using the resource/module body as the context to allow indexed depdnencies relying on the resource/module loop index to work as expected
             var inaccessibleLocals = dfa.GetInaccessibleLocalsAfterSyntaxMove(candidateIndexExpression, context);
             if(inaccessibleLocals.Any())

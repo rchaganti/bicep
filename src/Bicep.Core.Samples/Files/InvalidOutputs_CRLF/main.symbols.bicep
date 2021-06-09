@@ -17,6 +17,18 @@ output missingValueAndType =
 output missingValue string = 
 //@[7:19) Output missingValue. Type: string. Declaration start char: 0, length: 29
 
+// #completionTest(31,32) -> arrayPlusSymbols
+output arrayCompletions array = 
+//@[7:23) Output arrayCompletions. Type: array. Declaration start char: 0, length: 32
+
+// #completionTest(33,34) -> objectPlusSymbols
+output objectCompletions object = 
+//@[7:24) Output objectCompletions. Type: object. Declaration start char: 0, length: 34
+
+// #completionTest(29,30) -> boolPlusSymbols
+output boolCompletions bool = 
+//@[7:22) Output boolCompletions. Type: bool. Declaration start char: 0, length: 30
+
 output foo
 //@[7:10) Output foo. Type: any. Declaration start char: 0, length: 10
 
@@ -175,8 +187,34 @@ output noInnerLoopsInOutputs2 object = {
   }]
 }
 
+//KeyVault Secret Reference
+resource kv 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
+//@[9:11) Resource kv. Type: Microsoft.KeyVault/vaults@2019-09-01. Declaration start char: 0, length: 90
+  name: 'testkeyvault'
+}
+
+output keyVaultSecretOutput string = kv.getSecret('mySecret')
+//@[7:27) Output keyVaultSecretOutput. Type: string. Declaration start char: 0, length: 61
+output keyVaultSecretInterpolatedOutput string = '${kv.getSecret('mySecret')}'
+//@[7:39) Output keyVaultSecretInterpolatedOutput. Type: string. Declaration start char: 0, length: 78
+output keyVaultSecretObjectOutput object = {
+//@[7:33) Output keyVaultSecretObjectOutput. Type: object. Declaration start char: 0, length: 83
+  secret: kv.getSecret('mySecret')
+}
+output keyVaultSecretArrayOutput array = [
+//@[7:32) Output keyVaultSecretArrayOutput. Type: array. Declaration start char: 0, length: 73
+  kv.getSecret('mySecret')
+]
+output keyVaultSecretArrayInterpolatedOutput array = [
+//@[7:44) Output keyVaultSecretArrayInterpolatedOutput. Type: array. Declaration start char: 0, length: 90
+  '${kv.getSecret('mySecret')}'
+]
+
+// WARNING!!!!! dangling decorators
+
 // #completionTest(1) -> decoratorsPlusNamespace
 @
 // #completionTest(5) -> decorators
 @sys.
 
+// WARNING!!!!! dangling decorators - to make sure the tests work, please do not add contents after this line 

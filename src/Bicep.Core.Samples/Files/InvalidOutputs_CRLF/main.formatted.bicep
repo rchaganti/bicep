@@ -12,6 +12,15 @@ output missingValueAndType =
 // #completionTest(28,29) -> symbols
 output missingValue string = 
 
+// #completionTest(31,32) -> arrayPlusSymbols
+output arrayCompletions array = 
+
+// #completionTest(33,34) -> objectPlusSymbols
+output objectCompletions object = 
+
+// #completionTest(29,30) -> boolPlusSymbols
+output boolCompletions bool = 
+
 output foo
 
 // space after identifier #completionTest(20) -> outputTypes
@@ -112,7 +121,28 @@ output noInnerLoopsInOutputs2 object = {
   }]
 }
 
+//KeyVault Secret Reference
+resource kv 'Microsoft.KeyVault/vaults@2019-09-01' existing = {
+  name: 'testkeyvault'
+}
+
+output keyVaultSecretOutput string = kv.getSecret('mySecret')
+output keyVaultSecretInterpolatedOutput string = '${kv.getSecret('mySecret')}'
+output keyVaultSecretObjectOutput object = {
+  secret: kv.getSecret('mySecret')
+}
+output keyVaultSecretArrayOutput array = [
+  kv.getSecret('mySecret')
+]
+output keyVaultSecretArrayInterpolatedOutput array = [
+  '${kv.getSecret('mySecret')}'
+]
+
+// WARNING!!!!! dangling decorators
+
 // #completionTest(1) -> decoratorsPlusNamespace
 @
 // #completionTest(5) -> decorators
 @sys.
+
+// WARNING!!!!! dangling decorators - to make sure the tests work, please do not add contents after this line 

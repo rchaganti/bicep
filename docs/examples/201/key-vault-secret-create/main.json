@@ -1,6 +1,13 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "dev",
+      "templateHash": "209805249433312840"
+    }
+  },
   "parameters": {
     "keyVaultName": {
       "type": "string",
@@ -81,7 +88,12 @@
     "secretsObject": {
       "type": "secureObject",
       "defaultValue": {
-        "secrets": []
+        "secrets": [
+          {
+            "secretName": "yourSecret",
+            "secretValue": "yourValue"
+          }
+        ]
       },
       "metadata": {
         "description": "Specifies all secrets {\"secretName\":\"\",\"secretValue\":\"\"} wrapped in a secure object."
@@ -138,12 +150,5 @@
         "[resourceId('Microsoft.KeyVault/vaults', parameters('keyVaultName'))]"
       ]
     }
-  ],
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "dev",
-      "templateHash": "14392977102697811712"
-    }
-  }
+  ]
 }

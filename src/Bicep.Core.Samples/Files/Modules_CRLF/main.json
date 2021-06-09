@@ -1,6 +1,13 @@
 {
   "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
+  "metadata": {
+    "_generator": {
+      "name": "bicep",
+      "version": "dev",
+      "templateHash": "11239587175076523465"
+    }
+  },
   "parameters": {
     "deployTimeSuffix": {
       "type": "string",
@@ -22,7 +29,29 @@
     "emptyArray": [],
     "duplicateAcrossScopes": "hello",
     "someDuplicate": true,
-    "otherDuplicate": false
+    "otherDuplicate": false,
+    "vaults": [
+      {
+        "vaultName": "test-1-kv",
+        "vaultRG": "test-1-rg",
+        "vaultSub": "abcd-efgh"
+      },
+      {
+        "vaultName": "test-2-kv",
+        "vaultRG": "test-2-rg",
+        "vaultSub": "ijkl-1adg1"
+      }
+    ],
+    "secrets": [
+      {
+        "name": "secret01",
+        "version": "versionA"
+      },
+      {
+        "name": "secret02",
+        "version": "versionB"
+      }
+    ]
   },
   "resources": [
     {
@@ -80,6 +109,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -151,6 +187,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "5311387963487731512"
+            }
+          },
           "parameters": {
             "location": {
               "type": "string"
@@ -192,6 +235,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "5311387963487731512"
+            }
+          },
           "parameters": {
             "location": {
               "type": "string"
@@ -227,6 +277,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12219545452385241730"
+            }
+          },
           "parameters": {
             "optionalString": {
               "type": "string",
@@ -280,6 +337,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12219545452385241730"
+            }
+          },
           "parameters": {
             "optionalString": {
               "type": "string",
@@ -346,6 +410,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12219545452385241730"
+            }
+          },
           "parameters": {
             "optionalString": {
               "type": "string",
@@ -412,6 +483,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12219545452385241730"
+            }
+          },
           "parameters": {
             "optionalString": {
               "type": "string",
@@ -482,6 +560,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12219545452385241730"
+            }
+          },
           "parameters": {
             "optionalString": {
               "type": "string",
@@ -552,6 +637,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12219545452385241730"
+            }
+          },
           "parameters": {
             "optionalString": {
               "type": "string",
@@ -623,6 +715,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -709,6 +808,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -796,6 +902,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -886,6 +999,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -976,6 +1096,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -1063,6 +1190,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -1179,6 +1313,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -1296,6 +1437,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -1416,6 +1564,13 @@
         "template": {
           "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
           "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "12608156742562425152"
+            }
+          },
           "parameters": {
             "stringParamA": {
               "type": "string",
@@ -1469,6 +1624,184 @@
           }
         }
       }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "secureModule1",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "secureStringParam1": {
+            "reference": {
+              "keyVault": {
+                "id": "[resourceId('Microsoft.KeyVault/vaults', 'testkeyvault')]"
+              },
+              "secretName": "mySecret"
+            }
+          },
+          "secureStringParam2": {
+            "reference": {
+              "keyVault": {
+                "id": "[resourceId('Microsoft.KeyVault/vaults', 'testkeyvault')]"
+              },
+              "secretName": "mySecret",
+              "secretVersion": "secretVersion"
+            }
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "10472196812999824211"
+            }
+          },
+          "parameters": {
+            "secureStringParam1": {
+              "type": "secureString"
+            },
+            "secureStringParam2": {
+              "type": "secureString",
+              "defaultValue": ""
+            }
+          },
+          "functions": [],
+          "resources": [],
+          "outputs": {
+            "exposedSecureString": {
+              "type": "string",
+              "value": "[parameters('secureStringParam1')]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "secureModule2",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "secureStringParam1": {
+            "reference": {
+              "keyVault": {
+                "id": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'otherGroup'), 'Microsoft.KeyVault/vaults', 'testkeyvault')]"
+              },
+              "secretName": "mySecret"
+            }
+          },
+          "secureStringParam2": {
+            "reference": {
+              "keyVault": {
+                "id": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', subscription().subscriptionId, 'otherGroup'), 'Microsoft.KeyVault/vaults', 'testkeyvault')]"
+              },
+              "secretName": "mySecret",
+              "secretVersion": "secretVersion"
+            }
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "10472196812999824211"
+            }
+          },
+          "parameters": {
+            "secureStringParam1": {
+              "type": "secureString"
+            },
+            "secureStringParam2": {
+              "type": "secureString",
+              "defaultValue": ""
+            }
+          },
+          "functions": [],
+          "resources": [],
+          "outputs": {
+            "exposedSecureString": {
+              "type": "string",
+              "value": "[parameters('secureStringParam1')]"
+            }
+          }
+        }
+      }
+    },
+    {
+      "copy": {
+        "name": "secureModuleLooped",
+        "count": "[length(variables('secrets'))]"
+      },
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2019-10-01",
+      "name": "[format('secureModuleLooped-{0}', copyIndex())]",
+      "properties": {
+        "expressionEvaluationOptions": {
+          "scope": "inner"
+        },
+        "mode": "Incremental",
+        "parameters": {
+          "secureStringParam1": {
+            "reference": {
+              "keyVault": {
+                "id": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', variables('vaults')[copyIndex()].vaultSub, variables('vaults')[copyIndex()].vaultRG), 'Microsoft.KeyVault/vaults', variables('vaults')[copyIndex()].vaultName)]"
+              },
+              "secretName": "[variables('secrets')[copyIndex()].name]"
+            }
+          },
+          "secureStringParam2": {
+            "reference": {
+              "keyVault": {
+                "id": "[extensionResourceId(format('/subscriptions/{0}/resourceGroups/{1}', variables('vaults')[copyIndex()].vaultSub, variables('vaults')[copyIndex()].vaultRG), 'Microsoft.KeyVault/vaults', variables('vaults')[copyIndex()].vaultName)]"
+              },
+              "secretName": "[variables('secrets')[copyIndex()].name]",
+              "secretVersion": "[variables('secrets')[copyIndex()].version]"
+            }
+          }
+        },
+        "template": {
+          "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+          "contentVersion": "1.0.0.0",
+          "metadata": {
+            "_generator": {
+              "name": "bicep",
+              "version": "dev",
+              "templateHash": "10472196812999824211"
+            }
+          },
+          "parameters": {
+            "secureStringParam1": {
+              "type": "secureString"
+            },
+            "secureStringParam2": {
+              "type": "secureString",
+              "defaultValue": ""
+            }
+          },
+          "functions": [],
+          "resources": [],
+          "outputs": {
+            "exposedSecureString": {
+              "type": "string",
+              "value": "[parameters('secureStringParam1')]"
+            }
+          }
+        }
+      }
     }
   ],
   "outputs": {
@@ -1491,13 +1824,6 @@
     "modCalculatedNameOutput": {
       "type": "object",
       "value": "[reference(resourceId('Microsoft.Resources/deployments', format('{0}{1}', 'optionalWithAllParamsAndManualDependency', parameters('deployTimeSuffix'))), '2019-10-01').outputs.outputObj.value]"
-    }
-  },
-  "metadata": {
-    "_generator": {
-      "name": "bicep",
-      "version": "dev",
-      "templateHash": "13296954332739114247"
     }
   }
 }

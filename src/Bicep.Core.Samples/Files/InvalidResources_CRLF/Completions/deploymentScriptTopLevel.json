@@ -11,14 +11,11 @@
     "preselect": false,
     "sortText": "2_dependsOn",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
-      "newText": "dependsOn"
-    },
-    "commitCharacters": [
-      ":"
-    ]
+      "newText": "dependsOn:"
+    }
   },
   {
     "label": "identity",
@@ -26,20 +23,17 @@
     "detail": "identity",
     "documentation": {
       "kind": "markdown",
-      "value": "Type: `ManagedServiceIdentity`  \n"
+      "value": "Type: `ManagedServiceIdentity`  \nManaged identity generic object.  \n"
     },
     "deprecated": false,
     "preselect": false,
     "sortText": "2_identity",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
-      "newText": "identity"
-    },
-    "commitCharacters": [
-      ":"
-    ]
+      "newText": "identity:"
+    }
   },
   {
     "label": "location",
@@ -47,20 +41,17 @@
     "detail": "location (Required)",
     "documentation": {
       "kind": "markdown",
-      "value": "Type: `string`  \n"
+      "value": "Type: `string`  \nThe location of the ACI and the storage account for the deployment script.  \n"
     },
     "deprecated": false,
     "preselect": false,
     "sortText": "2_location",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
-      "newText": "location"
-    },
-    "commitCharacters": [
-      ":"
-    ]
+      "newText": "location:"
+    }
   },
   {
     "label": "name",
@@ -68,20 +59,17 @@
     "detail": "name (Required)",
     "documentation": {
       "kind": "markdown",
-      "value": "Type: `string`  \n"
+      "value": "Type: `string`  \nThe resource name  \n"
     },
     "deprecated": false,
     "preselect": false,
     "sortText": "2_name",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
-      "newText": "name"
-    },
-    "commitCharacters": [
-      ":"
-    ]
+      "newText": "name:"
+    }
   },
   {
     "label": "resource",
@@ -91,7 +79,7 @@
     "preselect": false,
     "sortText": "2_resource",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
       "newText": "resource"
@@ -139,19 +127,16 @@
     "detail": "tags",
     "documentation": {
       "kind": "markdown",
-      "value": "Type: `Dictionary<string,String>`  \n"
+      "value": "Type: `Dictionary<string,String>`  \nResource tags.  \n"
     },
     "deprecated": false,
     "preselect": false,
     "sortText": "2_tags",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
-      "newText": "tags"
-    },
-    "commitCharacters": [
-      ":"
-    ]
+      "newText": "tags:"
+    }
   }
 ]

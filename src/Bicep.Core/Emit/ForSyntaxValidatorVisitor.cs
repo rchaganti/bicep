@@ -1,10 +1,13 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System;
+using System.Collections.Immutable;
+using System.Linq;
 using Bicep.Core.Diagnostics;
 using Bicep.Core.Semantics;
 using Bicep.Core.Syntax;
+using Bicep.Core.TypeSystem;
 
 namespace Bicep.Core.Emit
 {
@@ -15,7 +18,7 @@ namespace Bicep.Core.Emit
 
         private readonly IDiagnosticWriter diagnosticWriter;
         private readonly SemanticModel semanticModel;
-        
+
         private SyntaxBase? activeLoopCapableTopLevelDeclaration = null;
 
         private int propertyLoopCount = 0;
@@ -97,6 +100,13 @@ namespace Bicep.Core.Emit
             this.activeLoopCapableTopLevelDeclaration = null;
         }
 
+        public override void VisitVariableDeclarationSyntax(VariableDeclarationSyntax syntax)
+        {
+            this.activeLoopCapableTopLevelDeclaration = syntax;
+            base.VisitVariableDeclarationSyntax(syntax);
+            this.activeLoopCapableTopLevelDeclaration = null;
+        }
+
         public override void VisitOutputDeclarationSyntax(OutputDeclarationSyntax syntax)
         {
             this.activeLoopCapableTopLevelDeclaration = syntax;
@@ -162,21 +172,34 @@ namespace Bicep.Core.Emit
 
         public override void VisitVariableAccessSyntax(VariableAccessSyntax syntax)
         {
-            var symbol = this.semanticModel.GetSymbolInfo(syntax);
+            this.ValidateDirectAccessToResourceOrModuleCollection(syntax);
+
+            // visit children
+            base.VisitVariableAccessSyntax(syntax);
+        }
+
+        public override void VisitResourceAccessSyntax(ResourceAccessSyntax syntax)
+        {
+            this.ValidateDirectAccessToResourceOrModuleCollection(syntax);
+
+            // visit children
+            base.VisitResourceAccessSyntax(syntax);
+        }
+
+        private void ValidateDirectAccessToResourceOrModuleCollection(SyntaxBase variableOrResourceAccessSyntax)
+        {
+            var symbol = this.semanticModel.GetSymbolInfo(variableOrResourceAccessSyntax);
             if (symbol is ResourceSymbol { IsCollection: true } || symbol is ModuleSymbol { IsCollection: true })
             {
                 // we are inside a dependsOn property and the referenced symbol is a resource/module collection
-                var parent = this.semanticModel.Binder.GetParent(syntax);
+                var parent = this.semanticModel.Binder.GetParent(variableOrResourceAccessSyntax);
                 if (!this.insideTopLevelDependsOn && parent is not ArrayAccessSyntax)
                 {
                     // the parent is not array access, which means that someone is doing a direct reference to the collection
                     // which is not allowed outside of the dependsOn properties
-                    this.diagnosticWriter.Write(DiagnosticBuilder.ForPosition(syntax).DirectAccessToCollectionNotSupported());
+                    this.diagnosticWriter.Write(DiagnosticBuilder.ForPosition(variableOrResourceAccessSyntax).DirectAccessToCollectionNotSupported());
                 }
             }
-
-            // visit children
-            base.VisitVariableAccessSyntax(syntax);
         }
 
         private static ObjectPropertySyntax? TryGetDependsOnProperty(ObjectSyntax? body) => body?.SafeGetPropertyByName("dependsOn");
@@ -191,14 +214,14 @@ namespace Bicep.Core.Emit
 
             if(this.IsTopLevelLoop(syntax))
             {
-                // this is a loop in a resource, module, or output value
+                // this is a loop in a resource, module, variable, or output value
                 return true;
             }
 
             // not a top-level loop
-            if(this.activeLoopCapableTopLevelDeclaration is OutputDeclarationSyntax)
+            if(this.activeLoopCapableTopLevelDeclaration is OutputDeclarationSyntax || this.activeLoopCapableTopLevelDeclaration is VariableDeclarationSyntax)
             {
-                // output loops are only supported in the values due to runtime limitations
+                // output and variable loops are only supported in the values due to runtime limitations
                 return false;
             }
 
@@ -233,6 +256,7 @@ namespace Bicep.Core.Emit
                 case ResourceDeclarationSyntax resource when ReferenceEquals(resource.Value, syntax):
                 case ModuleDeclarationSyntax module when ReferenceEquals(module.Value, syntax):
                 case OutputDeclarationSyntax output when ReferenceEquals(output.Value, syntax):
+                case VariableDeclarationSyntax variable when ReferenceEquals(variable.Value, syntax):
                     return true;
 
                 default:

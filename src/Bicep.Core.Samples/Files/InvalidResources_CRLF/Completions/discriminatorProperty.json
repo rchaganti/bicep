@@ -11,14 +11,11 @@
     "preselect": false,
     "sortText": "2_kind",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
-      "newText": "kind"
-    },
-    "commitCharacters": [
-      ":"
-    ]
+      "newText": "kind:"
+    }
   },
   {
     "label": "resource",
@@ -28,7 +25,7 @@
     "preselect": false,
     "sortText": "2_resource",
     "insertTextFormat": "plainText",
-    "insertTextMode": "asIs",
+    "insertTextMode": "adjustIndentation",
     "textEdit": {
       "range": {},
       "newText": "resource"
